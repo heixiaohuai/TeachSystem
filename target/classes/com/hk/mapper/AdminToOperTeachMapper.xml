@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hk.mapper.AdminToOperTeachMapper">
+    <resultMap id="teacherMapper" type="Teacher">
+        <id column="tid" property="tid"/>
+        <result column="tno" property="tno"/>
+        <result column="tname" property="tname"/>
+        <result column="tsex" property="tsex"/>
+        <result column="tage" property="tage"/>
+        <result column="tdept" property="tdept"/>
+        <result column="ttitle" property="ttitle"/>
+        <result column="tpwd" property="tpwd"/>
+        <result column="timg" property="uimg"/>
+        <result column="tremark" property="tremark"/>
+    </resultMap>
+    
+    <select id="getTotalRows" resultType="int">
+        select count(*) from teacher
+    </select>
+    
+    <select id="getTeacherByPage" resultMap="teacherMapper" parameterType="PageBean">
+        select * from teacher limit #{index},#{pageSize}
+    </select>
+    
+    <update id="updateTeacher" parameterType="MyTeacher">
+        update teacher
+        <set>
+            <if test="uname != null and uname != ''">
+                tname=#{uname},
+            </if>
+            <if test="sex != null and sex != ''">
+                tsex=#{sex},
+            </if>
+            <if test="uage != null and uage != ''">
+                tage=#{uage},
+            </if>
+            <if test="udept != null and udept != ''">
+                tdept=#{udept},
+            </if>
+            <if test="utitle != null and utitle != ''">
+                ttitle=#{utitle},
+            </if>
+            <if test="upwd != null and upwd != ''">
+                tpwd=#{upwd},
+            </if>
+            <if test="timg != null and timg != ''">
+                timg=#{timg},
+            </if>
+            <if test="uremark != null and uremark != ''">
+                tremark=#{uremark}
+            </if>
+        </set>
+         where tno=#{uno}
+    </update>
+
+    <insert id="addTeacher" parameterType="Teacher">
+        insert into teacher (tid,tno,tname,tsex,tage,tdept,ttitle,tpwd,timg,tremark) values (default,#{tno},#{tname},#{tsex},#{tage}
+        ,#{tdept},#{ttitle},#{tpwd},#{uimg},#{tremark})
+    </insert>
+
+    <delete id="deleteTeacherById" parameterType="String">
+        delete from teacher where tno=#{id}
+    </delete>
+
+    <delete id="deleteTeachersByIds">
+        delete from teacher
+        <where>
+            <if test="list != null and list.size!=0">
+                <foreach collection="list" open="tno in (" close=")" separator="," item="id">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </delete>
+
+    <select id="getTeacherByNo" parameterType="String" resultType="int">
+        select count(*) from teacher where tno=#{no}
+    </select>
+</mapper>

@@ -1,0 +1,218 @@
+*{
+	margin:0px;
+	padding: 0px;
+}
+
+.main ul.nav_list{
+	display: block;
+	list-style: none;
+	padding:10px 20px;
+}
+
+.main ul.nav_list li{
+	float: left;
+	margin-right: 30px;
+}
+
+.main ul.nav_list li a{
+	text-decoration: none;
+	color:#333;
+	text-align: center;
+	font-size: 14px;
+}
+.main .nav_list .desktop .icon{
+	width: 70px;
+	height: 70px;
+	background: url("../images/t01.png");
+}
+
+.main .nav_list .news .icon{
+	width: 70px;
+	height: 70px;
+	background: url("../images/t02.png");
+}
+
+.main .nav_list .notice .icon{
+	width: 70px;
+	height: 70px;
+	background: url("../images/t03.png");
+}
+
+.main .nav_list .plan .icon{
+	width: 70px;
+	height: 70px;
+	background: url("../images/t04.png");
+}
+
+.main .nav_list .contacts .icon{
+	width: 70px;
+	height: 70px;
+	background: url("../images/t05.png");
+}
+
+.main .nav_list .email .icon{
+	width: 70px;
+	height: 70px;
+	background: url("../images/t06.png");
+}
+
+.main .nav_list .logs .icon{
+	width: 70px;
+	height: 70px;
+	background: url("../images/t07.png");
+}
+
+.main .nav_list .todos .icon{
+	width: 70px;
+	height: 70px;
+	background: url("../images/t08.png");
+}
+
+.main .nav_list .favor .icon{
+	width: 70px;
+	height: 70px;
+	background: url("../images/t09.png");
+}
+
+.main .nav_list .browser .icon{
+	width: 70px;
+	height: 70px;
+	background: url("../images/t10.png");
+}
+
+.main .content_list{
+	margin:100px 20px;
+	list-style: none;
+}
+
+.main .content_list li:not(.todo_item):not(.plan_item):not(.news_item):not(.email_item){
+	float:left;
+	margin:10px 10px;
+}
+
+.main .content_list li:not(.todo_item):not(.plan_item):not(.news_item):not(.email_item){
+	width: 340px;
+	height: 210px;
+	border:1px solid #ccc;
+}
+
+.main .content_list li h2{
+	height: 36px;
+	background: url("../images/toolbarbg.png");
+	color:#333;
+	font-size: 14px;
+	line-height: 36px;
+	border-bottom: 1px solid #cfcfcf;
+	padding-left: 15px;
+	cursor: move;
+}
+
+.main .content_list li h2 span.refresh{
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	cursor: pointer;
+	background: url("../images/p01.png");
+	margin-left: 230px;
+}
+
+.main .content_list li h2 span.close{
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	cursor: pointer;
+	background: url("../images/p04.png");
+}
+
+.main .content_list li div.content_bd img{
+	width: 340px;
+	height: 154px;
+}
+
+.main .content_list .content_bd .todo_list{
+	list-style: none;
+}
+
+.main .content_list .content_bd .todo_list .todo_item{
+	margin:10px 20px;
+}
+
+.main .content_list .content_bd .todo_list .todo_item .icon{
+	display: inline-block;
+	width: 8px;
+	height: 9px;
+	background: url("../images/plist.png");
+}
+
+.main .content_list .content_bd .todo_list .todo_item a{
+	text-decoration: none;
+	color: #000;
+	font-size: 15px;
+	margin-left: 5px;
+}
+
+.main .content_list .content_bd .plan_list{
+	list-style: none;
+}
+
+.main .content_list .content_bd .plan_list .plan_item{
+	margin:10px 20px;
+}
+
+.main .content_list .content_bd .plan_list .plan_item .icon{
+	display: inline-block;
+	width: 8px;
+	height: 9px;
+	background: url("../images/plist.png");
+}
+
+.main .content_list .content_bd .plan_list .plan_item a{
+	text-decoration: none;
+	color: #000;
+	font-size: 15px;
+	margin-left: 5px;
+}
+
+.main .content_list .content_bd .news_list{
+	list-style: none;
+}
+
+.main .content_list .content_bd .news_list .news_item{
+	margin:10px 20px;
+}
+
+.main .content_list .content_bd .news_list .news_item .icon{
+	display: inline-block;
+	width: 8px;
+	height: 9px;
+	background: url("../images/plist.png");
+}
+
+.main .content_list .content_bd .news_list .news_item a{
+	text-decoration: none;
+	color: #000;
+	font-size: 15px;
+	margin-left: 5px;
+}
+
+.main .content_list .content_bd .email_list{
+	list-style: none;
+}
+
+.main .content_list .content_bd .email_list .email_item{
+	margin:10px 20px;
+}
+
+.main .content_list .content_bd .email_list .email_item .icon{
+	display: inline-block;
+	width: 8px;
+	height: 9px;
+	background: url("../images/plist.png");
+}
+
+.main .content_list .content_bd .email_list .email_item a{
+	text-decoration: none;
+	color: #000;
+	font-size: 15px;
+	margin-left: 5px;
+}

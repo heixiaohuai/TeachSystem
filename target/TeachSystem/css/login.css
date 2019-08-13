@@ -1,0 +1,158 @@
+*{
+	margin:0px;
+	padding: 0px;
+}
+
+body{
+	background-color: #0170a4;
+	background-image: url("../images/loginlight.png") no-repeat center;
+}
+
+.main .logo{
+	background-image: url("../images/loginbox.png");
+	background-size: cover;
+	width: 640px;
+	height: 426px;
+	margin:80px auto;
+}
+
+.logo img{
+	position: relative;
+	left: 68px;
+	top: 10px;
+}
+
+.logo .title{
+	position: relative;
+	top:20px;
+	left: 80px;
+}
+
+.title span:first-child{
+	font-family: "隶书";
+	font-size: 40px;
+}
+
+.title span:nth-child(2){
+	color:#FC742D;
+}
+
+.title p{
+	font-family: "方正舒体";
+	font-size: 25px;
+	color: #53514F;
+	margin-top: 5px;
+	margin-left: 60px;
+}
+
+.logo .login{
+	width: 610px;
+	height: 300px;
+	margin: 50px auto;
+}
+
+.login p{
+	margin:15px 50px;
+}
+
+.login #username{
+	background-image: url("../images/userinput.png");
+	margin-left: 30px;
+	width: 174px;
+	height: 39px;
+	border: none;
+	outline: none;
+	padding:0 35px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.login #password{
+	background-image: url("../images/passwordinput.png");
+	margin-left: 31px;
+	width: 174px;
+	height: 39px;
+	border: none;
+	outline: none;
+	padding:0 35px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.login #validate{
+	background-image: url("../images/yzminput.png");
+	margin-left: 30px;
+	width: 203px;
+	height: 39px;
+	border: none;
+	outline: none;
+	padding:0 20px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.login .code{
+	position: relative;
+	left:300px;
+	top:-45px;
+	font-size: 16px;
+	color:#fff;
+	width: 70px;
+	height: 39px;
+}
+
+.login .code:hover{
+	cursor: pointer;
+}
+/*IE 10 去掉select下拉箭头*/
+select::-ms-expand{
+    display: none;
+}
+
+.login .cstyle{
+	width: 133px;
+	height: 39px;
+	border-radius: 5px;
+	outline: none;
+	border: 1px solid #ccc;
+	padding: 0px 10px;
+	margin-left: 30px;
+	/* Firefox 去掉select下拉箭头*/
+	-moz-appearance:none; 
+	 /* Chrome 去掉select下拉箭头*/
+	-webkit-appearance:none;
+	background: url("../images/select_normal.png") no-repeat right;
+}
+
+.login .cstyle:hover{
+	background: url("../images/select_hover.png") no-repeat right;
+}
+
+.login input[type="submit"]{
+	width: 133px;
+	height: 39px;
+	border:none;
+	outline: none;
+	cursor: pointer;
+	border-radius: 5px;
+	background:url("../images/loginbtn.png");
+	font-size: 16px;
+	color: #fff;
+	margin-left: 30px;
+}
+
+.login input[type="submit"]:hover{
+	background:url("../images/loginbtn_active.png");
+}
+
+.logo .errmsg{
+	width: 610px;
+	height: 50px;
+	position: relative;
+	top:-195px;
+	margin:0px auto;
+	font-family: "微软雅黑";
+	font-size: 16px;
+	color: red;
+	padding: 0px 60px;
+}

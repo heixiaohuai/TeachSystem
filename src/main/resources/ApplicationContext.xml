@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       https://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop
+       https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="com.hk.service.impl"/>
+
+    <context:property-placeholder location="classpath*:db.properties"/>
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+    </bean>
+
+    <bean id="factory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="typeAliasesPackage" value="com.hk.pojo"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.hk.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="factory"/>
+    </bean>
+
+    <!--配置AspectJ的AOP事务-->
+    <!--配置事务管理器-->
+    <bean id="txManage" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--注册事务通知-->
+    <tx:advice id="myAdvice" transaction-manager="txManage">
+        <tx:attributes>
+            <tx:method name="add*" isolation="DEFAULT" propagation="REQUIRED"/>
+            <tx:method name="get*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--配置AOP：完成通知织入到业务方法中-->
+    <aop:config>
+        <!--配置切入点-->
+        <aop:pointcut id="myPointCut" expression="execution(* com.hk.service.impl.*.*(..))"/>
+        <!--配置顾问-->
+        <aop:advisor advice-ref="myAdvice" pointcut-ref="myPointCut"/>
+    </aop:config>
+
+    <!-- 注册teacherService -->
+    <bean id="teacherService" class="com.hk.service.impl.TeacherServiceImpl">
+        <property name="teacherDao" ref="ITeacherDao"/>
+    </bean>
+
+    <!-- 注册studentService -->
+    <bean id="studentService" class="com.hk.service.impl.StudentServiceImpl">
+        <property name="stuDao" ref="IStudentDao"></property>
+    </bean>
+
+</beans>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hk.mapper.IStudentDao">
+	
+	<insert id="selectCourse">
+		insert into selectcourse(flag,student_id,course_id) values(#{flag},#{student_id},#{course_id})
+	</insert>
+	
+	<select id="getScore" parameterType="String" resultType="MyScore">
+		select s.`no`, c.cname, sc.`year`, sc.term, sc.score, sc.flag from 
+		student s, selectcourse ss, course c, score sc where s.id=ss.student_id 
+		and c.cid=ss.course_id and s.id=sc.student_id and s.no=#{no};
+	</select>
+	
+	<select id="getScoreTotalRows" resultType="int" parameterType="String">
+		select count(*) from (select s.`no`, c.cname, sc.`year`, sc.term, sc.score, sc.flag from 
+		student s, selectcourse ss, course c, score sc where s.id=ss.student_id 
+		and c.cid=ss.course_id and s.id=sc.student_id and s.no=#{no};)
+	</select>
+	
+	<select id="getScoreByPage" resultType="MyScore">
+		select s.`no`, c.cname, sc.`year`, sc.term, sc.score, sc.flag from 
+		student s, selectcourse ss, course c, score sc where s.id=ss.student_id 
+		and c.cid=ss.course_id and s.id=sc.student_id and s.no=#{no} limit #{page.index}.#{page.pageSize}
+	</select>
+</mapper>

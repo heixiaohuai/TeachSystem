@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hk.mapper.UserMapper">
+
+    <resultMap id="userMapper" type="User">
+        <id column="uid" property="uid"/>
+        <result column="uaccount" property="uaccount"/>
+        <result column="upwd" property="upwd"/>
+        <result column="uimg" property="uimg"/>
+        <association property="role" javaType="Role">
+            <id property="rid" column="rid"/>
+            <result property="rname" column="rname"/>
+        </association>
+        <association property="student" javaType="Student">
+            <id column="id" property="id"/>
+            <result column="no" property="no"/>
+            <result column="no" property="no"/>
+            <result column="name" property="name"/>
+            <result column="sex" property="sex"/>
+            <result column="age" property="age"/>
+            <result column="major" property="major"/>
+            <result column="university" property="university"/>
+            <result column="mobile" property="mobile"/>
+            <result column="addr" property="addr"/>
+            <result column="start" property="start"/>
+            <result column="end" property="end"/>
+            <result column="pwd" property="pwd"/>
+            <result column="grade" property="grade"/>
+            <result column="img" property="img"/>
+        </association>
+    </resultMap>
+    <!--select * from users u, roles r where u.role_id=r.rid and u.uaccount=#{uaccount} and u.upwd=#{upwd}-->
+    <select id="validateUser" resultMap="userMapper">
+        select * from ((users u inner join roles r on u.role_id=r.rid
+			and u.uaccount=#{uaccount} and u.upwd=#{upwd})
+			left join student s on u.student_id=s.id)
+			left join teacher t on u.teacher_id=t.tid;
+    </select>
+
+    <select id="getTotalRows" resultType="int">
+        select count(*) from users
+    </select>
+
+    <select id="getUserByPage" resultMap="userMapper">
+        select * from users u, roles r where u.role_id = r.rid limit #{index},#{pageSize}
+    </select>
+
+    <insert id="addAdmin" parameterType="user">
+        insert into users (uid,uaccount,upwd,uimg,role_id) values (default,#{uaccount},#{upwd},#{uimg},#{userType})
+    </insert>
+
+    <update id="updateAdmin" parameterType="myUser">
+        update users
+        <set>
+            <if test="pwd != null and pwd != ''">
+                upwd=#{pwd},
+            </if>
+            <if test="img != null and img != ''">
+                uimg=#{img},
+            </if>
+            <if test="userType != null and userType != ''">
+                role_id=#{userType}
+            </if>
+        </set>
+        where uaccount=#{account}
+    </update>
+
+    <delete id="deleteAdmin" parameterType="String">
+        delete from users where uaccount=#{id}
+    </delete>
+
+    <delete id="deleteAdminsByIds">
+        delete from users
+        <if test="list!=null and list.size!=0">
+            <where>
+                <foreach collection="list" open="uaccount in (" close=")" separator="," item="id">
+                    #{id}
+                </foreach>
+            </where>
+        </if>
+    </delete>
+
+    <select id="getUserByAccount" parameterType="String" resultType="int">
+        select count(*) from users where uaccount=#{account}
+    </select>
+</mapper>

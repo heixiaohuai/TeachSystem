@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>选课信息管理</title>
+	<link rel="stylesheet" type="text/css" href="../css/inputscore.css">
+	<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="../js/messages_zh.js"></script>	
+	<script type="text/javascript" src="../laydate/laydate.js"></script>
+	<script type="text/javascript" src="../js/inputscore.js"></script>
+	<script type="text/javascript" src="../js/pageMe.js"></script>
+	<style type="text/css">
+		/* 外面盒子样式---自己定义 */
+        .page_div{margin:20px 10px 20px 16px;color:#666}
+        /* 页数按钮样式 */
+        .page_div button{display:inline-block;min-width:30px;height:28px;cursor:pointer;color:#666;font-size:13px;line-height:28px;background-color:#f9f9f9;border:1px solid #dce0e0;text-align:center;margin:0 4px;-webkit-appearance: none;-moz-appearance: none;appearance: none;}
+        #firstPage,#lastPage,#nextPage,#prePage{width:50px;color:#38A3D5;border:1px solid #38A3D5}
+        #nextPage,#prePage{width:70px}
+        .page_div .current{background-color:#38A3D5;border-color:#38A3D5;color:#FFF}
+        /* 页面数量 */
+        .totalPages{margin:0 10px}
+        .totalPages span,.totalSize span{color:#38A3D5;margin:0 5px}
+        /*button禁用*/
+        .page_div button:disabled{opacity:.5;cursor:no-drop}
+
+
+       /*表单验证CSS*/
+        #addform label.error{
+			color: red;
+		}
+		#updateform label.error{
+			color: red;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="browse">
+			<div class="top">
+				<h5>请选择您要导入的文件</h5>
+				<i></i>
+			</div>
+			<div class="content">
+				<div class="files">
+					<form action="javascript:void(0)" method="post" enctype="multipart/form-data">
+						<input type="file" name="myfile" id="sfile" style="display: none;"
+							onchange="$('#path').val($(this).val());" />
+						<input type="text" name="path" id="path"/><button class="select" onclick="$('#sfile').click();return false;">浏览...</button>
+					</form>
+				</div>
+				<div class="buttons">
+					<button class="ok">确定</button>
+					<button class="cancel">取消</button>
+				</div>
+			</div>
+		</div>
+		<div class="hd">
+			<span>请输入关键字：</span>
+			<input type="text" name="keyword" class="keyword">
+			<button class="search">搜索一下</button>
+			<button class="return">返回</button>
+		</div>
+		<div class="bd">
+			<div class="table">
+				<table cellpadding="0" cellspacing="0" class="tablebd">
+					<thead>
+						<tr id="head">
+							<td id="id">
+								<span>ID</span>
+								<a href="javascript:void(0)" id="sort"></a>
+							</td>
+							<td id="sno">
+								<span>学生学号</span>
+								<a href="javascript:void(0)" id="sort"></a>
+							</td>
+							<td id="sname">
+								<span>学生姓名</span>
+								<a href="javascript:void(0)" id="sort"></a>
+							</td>
+							<td id="cname">
+								<span>课程名称</span>
+							</td>
+							<td id="teacher">
+								<span>授课老师</span>
+							</td>
+							<td id="flag">
+								<span>成绩</span>
+							</td>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+				<button class="submit">提交成绩</button>
+			</div>
+		</div>
+		<div id="page" class="page_div"></div>
+	</div>
+<script type="text/javascript">
+
+	// pageMe.js 使用方法
+    $("#page").paging({
+        pageNum: 1, // 当前页面
+        totalNum: 20, // 总页码
+        totalList: 300, // 记录总数量
+        callback: function (num) { //回调函数
+            console.log(num);
+        }
+    });
+
+
+    //预览图片
+    $("#timg").change(function(){
+    	var objUrl=$(this)[0].files[0];
+    	 //获得一个http格式的url路径:mozilla(firefox)||webkit or chrome  
+        var windowURL = window.URL || window.webkitURL;
+        //createObjectURL创建一个指向该参数对象(图片)的URL  
+        var dataURL = windowURL.createObjectURL(objUrl);
+        $(".preview").attr("src", dataURL);
+    });
+
+     //预览图片
+    $("#uimg").change(function(){
+    	var objUrl=$(this)[0].files[0];
+    	 //获得一个http格式的url路径:mozilla(firefox)||webkit or chrome  
+        var windowURL = window.URL || window.webkitURL;
+        //createObjectURL创建一个指向该参数对象(图片)的URL  
+        var dataURL = windowURL.createObjectURL(objUrl);
+        $(".preview").attr("src", dataURL);
+    });
+
+    //删除全选
+    $(".tablehd #all").click(function(){
+    	if($(".tablehd #all").is(":checked")){
+    		$(".tablehd input[type='checkbox'").not(".tablehd #all").prop({"checked":true});
+    	}else{
+    		$(".tablehd input[type='checkbox'").not(".tablehd #all").prop({"checked":false});
+    	}
+    })
+    
+    $(".return").click(function(){
+    	window.location.href="scoreman.html";
+    })
+</script>	
+</body>
+</html>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hk.mapper.AdminToOperStuMapper">
+
+    <resultMap id="stuMapper" type="Student">
+        <id column="id" property="id"/>
+        <result column="no" property="no"/>
+        <result column="name" property="name"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="major" property="major"/>
+        <result column="university" property="university"/>
+        <result column="mobile" property="mobile"/>
+        <result column="addr" property="addr"/>
+        <result column="start" property="start"/>
+        <result column="end" property="end"/>
+        <result column="pwd" property="pwd"/>
+        <result column="grade" property="grade"/>
+        <result column="img" property="img"/>
+    </resultMap>
+
+    <select id="getTotalRows" resultType="int">
+        select count(*) from student
+    </select>
+
+    <select id="getUserByPage" resultMap="stuMapper" parameterType="PageBean">
+      select * from student limit #{index},#{pageSize}
+    </select>
+
+    <insert id="addStudent" parameterType="Student">
+        insert into student (id,no,name,sex,age,major,university,mobile,addr,start,end,pwd,grade,img)
+        values (default,#{no},#{name},#{sex},#{age},#{major},#{university},#{mobile},#{addr},#{start},#{end},#{pwd},#{grade},#{img})
+    </insert>
+
+    <delete id="deleteStudentById" parameterType="String">
+        delete from student where no=#{id}
+    </delete>
+
+    <delete id="deleteStudentsByIds">
+        delete from student
+        <if test="list != null and list.size!=0">
+            <where>
+                <foreach collection="list" item="id" separator="," open="no in (" close=")">
+                    #{id}
+                </foreach>
+            </where>
+        </if>
+    </delete>
+
+    <update id="updateStudent" parameterType="MyStudent">
+        update student
+        <set>
+            <if test="uno != null and uno != ''">
+                no=#{uno},
+            </if>
+            <if test="uname != null and uname != ''">
+                name=#{uname},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex=#{sex},
+            </if>
+            <if test="uage != null and uage != ''">
+                age=#{uage},
+            </if>
+            <if test="umajor != null and umajor != ''">
+                major=#{umajor},
+            </if>
+            <if test="uuniversity != null and uuniversity != ''">
+                university=#{uuniversity},
+            </if>
+            <if test="uphone != null and uphone != ''">
+                mobile=#{uphone},
+            </if>
+            <if test="uaddr != null and uaddr != ''">
+                addr=#{uaddr},
+            </if>
+            <if test="uindate != null">
+                start=#{uindate},
+            </if>
+            <if test="uoutdate != null">
+                end=#{uoutdate},
+            </if>
+            <if test="upwd != null and upwd != ''">
+                pwd=#{upwd},
+            </if>
+            <if test="uclass != null and uclass != ''">
+                grade=#{uclass},
+            </if>
+            <if test="simg != null and simg != ''">
+                img=#{simg}
+            </if>
+        </set>
+         where id=#{uid}
+    </update>
+
+    <select id="getStuByNo" parameterType="String" resultType="int">
+        select count(*) from student where no=#{no}
+    </select>
+</mapper>

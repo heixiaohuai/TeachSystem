@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>学生信息管理</title>
+	<link rel="stylesheet" type="text/css" href="../css/adminman.css">
+	<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="../js/messages_zh.js"></script>
+	<script type="text/javascript" src="../laydate/laydate.js"></script>
+	<script type="text/javascript" src="../js/adminman.js"></script>
+	<script type="text/javascript" src="../js/pageMe.js"></script>
+	<style type="text/css">
+		/* 外面盒子样式---自己定义 */
+		.page_div{margin:20px 10px 20px 16px;color:#666}
+		/* 页数按钮样式 */
+		.page_div button{display:inline-block;min-width:30px;height:28px;cursor:pointer;color:#666;font-size:13px;line-height:28px;background-color:#f9f9f9;border:1px solid #dce0e0;text-align:center;margin:0 4px;-webkit-appearance: none;-moz-appearance: none;appearance: none;}
+		#firstPage,#lastPage,#nextPage,#prePage{width:50px;color:#38A3D5;border:1px solid #38A3D5}
+		#nextPage,#prePage{width:70px}
+		.page_div .current{background-color:#38A3D5;border-color:#38A3D5;color:#FFF}
+		/* 页面数量 */
+		.totalPages{margin:0 10px}
+		.totalPages span,.totalSize span{color:#38A3D5;margin:0 5px}
+		/*button禁用*/
+		.page_div button:disabled{opacity:.5;cursor:no-drop}
+
+
+		/*表单验证CSS*/
+		#addform label.error{
+			color: red;
+		}
+		#updateform label.error{
+			color: red;
+		}
+	</style>
+</head>
+<body>
+<div class="addstu" tabindex="1">
+	<div class="top">
+		<h4>增加人员信息</h4>
+		<i></i>
+	</div>
+	<div class="main">
+		<h5>
+			<span>人员信息</span>
+		</h5>
+		<div class="stuform">
+			<form action="/TeachSystem/addAdmin" method="post" id="addform" enctype="multipart/form-data">
+				<p>
+					<span>账号：</span>
+					<input type="text" name="uaccount" id="uaccount"/>
+				</p>
+				<p>
+					<span>密码：</span>
+					<input type="password" name="upwd" id="upwd"/>
+				</p>
+				<p>
+					<span>确认密码：</span>
+					<input type="password" name="urepwd" id="urepwd"/>
+				</p>
+				<p>
+				<p>
+					<span>类别：</span>
+					<input type="radio" name="role_id" value="1" checked="checked" />管理员
+					<input type="radio" name="role_id" value="2" />学生
+					<input type="radio" name="role_id" value="3" />老师
+				</p>
+				</p>
+				<p>
+					<span>图片：</span>
+					<input type="button" value="浏览..." id="mybtn1" onclick="$('#simg').click();return false;"/>
+					<input type="file" name="simg" id="simg" style="display: inline-block;width: 0px;height: 1px;font-size: 0px;margin:0px;padding: 0px;opacity: 0.1;" />
+					<img class="preview">
+				</p>
+				<p>
+					<input type="submit" class="submit" value="增加"/>
+					<input type="button" class="cancel" value="取消"/>
+				</p>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="updatestu" tabindex="2">
+	<div class="top">
+		<h4>修改管理员信息</h4>
+		<i></i>
+	</div>
+	<div class="main">
+		<h5>
+			<span>管理员信息</span>
+		</h5>
+		<div class="stuform">
+			<form action="/TeachSystem/updateAdmin" method="post" id="updateform" enctype="multipart/form-data">
+				<p>
+					<span>账号：</span>
+					<input type="hidden" name="myno" id="myno">
+					<input type="text" name="account" id="account"/>
+				</p>
+				<p>
+					<span>密码：</span>
+					<input type="text" name="pwd" id="pwd"/>
+				</p>
+				<p>
+					<span>确认密码：</span>
+					<input type="text" name="repwd" id="repwd"/>
+				</p>
+				<p>
+					<span>类别：</span>
+					<input type="radio" name="role_id" value="1" checked="checked" />管理员
+					<input type="radio" name="role_id" value="2" />学生
+					<input type="radio" name="role_id" value="3" />老师
+				</p>
+				<p>
+					<span>图片：</span>
+					<input type="button" value="浏览..." id="mybtn2" onclick="$('#uimg').click();return false;"/>
+					<input type="file" name="uimg" id="uimg" style="display: inline-block;width: 0px;height: 1px;font-size: 0px;margin:0px;padding: 0px;opacity: 0.1;"/>
+					<img class="preview">
+				</p>
+				<p>
+					<input type="submit" class="submit" value="修改"/>
+					<input type="button" class="cancel" value="取消"/>
+				</p>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="bd">
+		<div class="toolbar">
+			<div class="opt">
+					 <span class="optarea">
+                        <a href="javascript:void(0);" class="add">
+                            <i class="icon"></i>
+                            <span class="text">添加</span>
+                        </a>
+                        <a href="javascript:void(0);" class="delete">
+                            <i class="icon"></i>
+                            <span class="text">删除</span>
+                        </a>                       
+                        <a href="javascript:void(0);" class="statistics">
+                            <i class="icon"></i>
+                            <span class="text">统计</span>
+                        </a>
+                    </span>
+			</div>
+		</div>
+		<div class="table">
+			<table class="tablehd" cellpadding="0" cellspacing="0">
+				<tr id="first">
+					<td>
+						<input type="checkbox" name="all" id="all">
+					</td>
+				</tr>
+			</table>
+			<table cellpadding="0" cellspacing="0" class="tablebd">
+				<thead>
+				<tr id="head">
+					<td id="id">
+						<span>ID</span>
+						<a href="javascript:void(0)" id="sort"></a>
+					</td>
+					<td id="name">
+						<span>账号</span>
+						<a href="javascript:void(0)" id="sort"></a>
+					</td>
+					<td id="pwd">
+						<span>密码</span>
+					</td>
+					<td id="img">
+						<span>图片</span>
+					</td>
+					<td id="role">
+						<span>角色</span>
+					</td>
+					<td id="oper">
+						<span>操作</span>
+					</td>
+				</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div id="page" class="page_div"></div>
+</div>
+<script type="text/javascript">
+    //预览图片
+    $("#simg").change(function(){
+        var objUrl=$(this)[0].files[0];
+        //获得一个http格式的url路径:mozilla(firefox)||webkit or chrome
+        var windowURL = window.URL || window.webkitURL;
+        //createObjectURL创建一个指向该参数对象(图片)的URL  
+        var dataURL = windowURL.createObjectURL(objUrl);
+        $(".preview").attr("src", dataURL);
+    });
+
+    //预览图片
+    $("#uimg").change(function(){
+        var objUrl=$(this)[0].files[0];
+        //获得一个http格式的url路径:mozilla(firefox)||webkit or chrome
+        var windowURL = window.URL || window.webkitURL;
+        //createObjectURL创建一个指向该参数对象(图片)的URL  
+        var dataURL = windowURL.createObjectURL(objUrl);
+        $(".preview").attr("src", dataURL);
+    });
+
+    //删除全选
+    $(".tablehd #all").click(function(){
+        if($(".tablehd #all").is(":checked")){
+            $(".tablehd input[type='checkbox'").not(".tablehd #all").prop({"checked":true});
+        }else{
+            $(".tablehd input[type='checkbox'").not(".tablehd #all").prop({"checked":false});
+        }
+    })
+
+</script>
+</body>
+</html>

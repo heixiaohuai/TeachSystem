@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hk.mapper.AdminToOperCourMapper">
+    <resultMap id="courseMapper" type="Course">
+        <id column="cid" property="cid"/>
+        <result column="cno" property="cno"/>
+        <result column="cname" property="cname"/>
+        <result column="ccredit" property="ccredit"/>
+        <result column="cstart" property="cstart"/>
+        <result column="caddr" property="caddr"/>
+        <result column="ckind" property="ckind"/>
+        <association property="teacher" javaType="Teacher">
+            <id column="tid" property="tid"/>
+            <result column="tno" property="tno"/>
+            <result column="tname" property="tname"/>
+            <result column="tsex" property="tsex"/>
+            <result column="tage" property="tage"/>
+            <result column="tdept" property="tdept"/>
+            <result column="ttitle" property="ttitle"/>
+            <result column="tpwd" property="tpwd"/>
+            <result column="timg" property="uimg"/>
+            <result column="tremark" property="tremark"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="teacherMapper" type="Teacher">
+        <id column="tid" property="tid"/>
+        <result column="tno" property="tno"/>
+        <result column="tname" property="tname"/>
+        <result column="tsex" property="tsex"/>
+        <result column="tage" property="tage"/>
+        <result column="tdept" property="tdept"/>
+        <result column="ttitle" property="ttitle"/>
+        <result column="tpwd" property="tpwd"/>
+        <result column="timg" property="uimg"/>
+        <result column="tremark" property="tremark"/>
+    </resultMap>
+
+    <select id="getAllTeacher" resultMap="teacherMapper">
+        select * from teacher
+    </select>
+
+    <select id="getTotalRows" resultType="int">
+        select count(*) from course
+    </select>
+
+    <select id="getCourseByPage" resultMap="courseMapper" parameterType="PageBean">
+        select * from course c, teacher t where c.teacher_id=t.tid limit #{index},#{pageSize}
+    </select>
+    
+    <select id="getCourseByNo" resultType="int">
+        select count(*) from course where cno=#{no}
+    </select>
+    
+    <insert id="addCourse" parameterType="Course">
+        insert into course (cid,cno,cname,ccredit,cstart,caddr,ckind,teacher_id) values
+         (default,#{cno},#{cname},#{ccredit},#{cstart},#{caddr},#{ckind},#{teacher.tid})
+    </insert>
+
+    <update id="updateCourse" parameterType="MyCourse">
+        update course set cname=#{uname},ccredit=#{ucredit},cstart=#{ustart},caddr=#{uaddr},ckind=#{ukind},teacher_id=#{teacher.tid} where cno=#{uno}
+    </update>
+    
+    <delete id="deleteCourseById" parameterType="int">
+        delete from course where cid=#{id}
+    </delete>
+    
+    <delete id="deleteCourseByIds">
+        delete from course
+        <if test="list!=null and list.size!=0">
+            <where>
+                <foreach collection="list" item="id" open="cid in (" separator="," close=")">
+                    #{id}
+                </foreach>
+            </where>
+        </if>
+    </delete>
+
+    <delete id="deleteCourseByTeacher">
+        delete from course where teacher_id in (select tid from teacher where tno=#{teacher})
+    </delete>
+
+    <delete id="deleteCourseByTeachers">
+        delete from course where teacher_id in (select tid from teacher
+        <if test="list!=null and list.size!=0">
+            <where>
+                <foreach collection="list" item="id" separator="," open="tno in (" close=")">
+                    #{id}
+                </foreach>
+            </where>
+        </if>
+        )
+    </delete>
+</mapper>

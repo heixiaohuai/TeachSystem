@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hk.mapper.ITeacherDao">
+
+    <select id="getMyCourse" resultType="MyCour" >
+		select * from
+		course c,student s,selectcourse ss,teacher t
+		where c.cid = ss.course_id
+		and s.id=ss.student_id
+		and t.tid=c.teacher_id
+	</select>
+
+	<select id="getMyCoursePage" resultType="MyCour">
+ 		select * from
+		course c,student s,selectcourse ss,teacher t
+		where c.cid = ss.course_id
+		and s.id=ss.student_id
+		and t.tid=c.teacher_id order by ss.id limit #{index},#{pageSize}
+ 	</select>
+
+	<select id="getMyCourseCount" resultType="int">
+ 		select count(*) from selectcourse
+ 	</select>
+
+
+		<!--学生成绩录入页面-->
+
+	<select id="getMyScore" resultType="MyScore" >
+		SELECT
+		(@i:=@i+1) as no,s.grade, c.cname
+		FROM
+		course c,
+		student s,
+		selectcourse ss,
+		teacher t,
+		(select @i:=0) i
+		WHERE
+		c.cid = ss.course_id
+		AND s.id = ss.student_id
+		AND t.tid = c.teacher_id
+	</select>
+
+	<select id="getMyScorePage" resultType="MyScore">
+ 		SELECT
+		(@i:=@i+1) as no,s.grade, c.cname
+		FROM
+		course c,
+		student s,
+		selectcourse ss,
+		teacher t,
+		(select @i:=0) i
+		WHERE
+		c.cid = ss.course_id
+		AND s.id = ss.student_id
+		AND t.tid = c.teacher_id
+		order by no limit #{index},#{pageSize}
+ 	</select>
+
+	<select id="getMyScoreCount" resultType="int">
+ 		SELECT
+		count(*)
+		FROM
+		course c,
+		student s,
+		selectcourse ss,
+		teacher t,
+		(select @i:=0) i
+		WHERE
+		c.cid = ss.course_id
+		AND s.id = ss.student_id
+		AND t.tid = c.teacher_id
+ 	</select>
+
+
+
+	<!--插入成绩页面-->
+	<select id="getInputScore" resultType="InputScore" >
+		SELECT
+		(@i:=@i+1) as num,s.no as no,s.name as name,c.cname as cname,t.tname as tname
+		FROM
+		course c,
+		student s,
+		selectcourse sc,
+		teacher t,
+		(select @i:=0) i
+		WHERE
+		c.cid = sc.course_id
+		AND s.id = sc.student_id
+		AND t.tid = c.teacher_id
+		AND s.grade = #{grade}
+		AND c.cname = #{cname}
+	</select>
+
+	<select id="getInputScorePage" resultType="InputScore" >
+ 		SELECT
+		(@i:=@i+1) as num,s.no as no,s.name as name,c.cname as cname,t.tname as tname
+		FROM
+		course c,
+		student s,
+		selectcourse sc,
+		teacher t,
+		(select @i:=0) i
+		WHERE
+		c.cid = sc.course_id
+		AND s.id = sc.student_id
+		AND t.tid = c.teacher_id
+		AND s.grade = #{grade}
+		AND c.cname = #{cname} order by num limit #{index},#{pageSize}
+ 	</select>
+
+	<select id="getInputScoreCount" resultType="int" >
+ 		count(*)
+		FROM
+		course c,
+		student s,
+		selectcourse sc,
+		teacher t,
+		(select @i:=0) i
+		WHERE
+		c.cid = sc.course_id
+		AND s.id = sc.student_id
+		AND t.tid = c.teacher_id
+		AND s.grade = #{grade}
+		AND c.cname = #{cname}
+ 	</select>
+
+</mapper>

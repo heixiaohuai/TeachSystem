@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>课程信息管理</title>
+	<link rel="stylesheet" type="text/css" href="../css/courseman.css">
+	<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="../js/messages_zh.js"></script>	
+	<script type="text/javascript" src="../laydate/laydate.js"></script>
+	<script type="text/javascript" src="../js/courseman.js"></script>
+	<script type="text/javascript" src="../js/pageMe.js"></script>
+	<style type="text/css">
+		/* 外面盒子样式---自己定义 */
+        .page_div{margin:20px 10px 20px 16px;color:#666}
+        /* 页数按钮样式 */
+        .page_div button{display:inline-block;min-width:30px;height:28px;cursor:pointer;color:#666;font-size:13px;line-height:28px;background-color:#f9f9f9;border:1px solid #dce0e0;text-align:center;margin:0 4px;-webkit-appearance: none;-moz-appearance: none;appearance: none;}
+        #firstPage,#lastPage,#nextPage,#prePage{width:50px;color:#38A3D5;border:1px solid #38A3D5}
+        #nextPage,#prePage{width:70px}
+        .page_div .current{background-color:#38A3D5;border-color:#38A3D5;color:#FFF}
+        /* 页面数量 */
+        .totalPages{margin:0 10px}
+        .totalPages span,.totalSize span{color:#38A3D5;margin:0 5px}
+        /*button禁用*/
+        .page_div button:disabled{opacity:.5;cursor:no-drop}
+
+
+       /*表单验证CSS*/
+        #addform label.error{
+			color: red;
+		}
+		#updateform label.error{
+			color: red;
+		}
+	</style>
+</head>
+<body>
+	<div class="addstu" tabindex="1">
+		<div class="top">
+				<h4>增加课程信息</h4>
+				<i></i>
+		</div>
+		<div class="main">
+			<h5>
+				<span>课程信息</span>
+			</h5>
+			<div class="stuform">
+				<form action="/TeachSystem/admin/addCourse" method="post" id="addform">
+					<p>
+						<span>课程号：</span>
+						<input type="text" name="cno" id="cno"/>
+					</p>
+					<p>
+						<span>课程名：</span>
+						<input type="text" name="cname" id="cname"/>
+					</p>
+					<p>
+						<span>学分：</span>
+						<input type="text" name="ccredit" id="ccredit"/>
+					</p>
+					<p>
+						<span>授课老师：</span>
+						<select name="teacher.tid" id="cteacher"></select>
+					</p>
+					<p>
+						<span>上课时间：</span>
+						<input type="text" name="cstart" id="cstart">
+					</p>
+					<p>
+						<span>上课地点：</span>
+						<input type="text" name="caddr" id="caddr">
+					</p>
+					<p>
+						<span>课程类型：</span>
+						<input type="text" name="ckind" id="ckind"/>
+					</p>
+					<p>
+						<input type="submit" class="submit" value="增加"/>
+						<input type="button" class="cancel" value="取消"/>
+					</p>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="updatestu" tabindex="2">
+		<div class="top">
+				<h4>修改课程信息</h4>
+				<i></i>
+		</div>
+		<div class="main">
+			<h5>
+				<span>课程信息</span>
+			</h5>
+			<div class="stuform">
+				<form action="/TeachSystem/admin/updateCourse" method="post" id="updateform">
+					<p>
+						<span>课程号：</span>
+						<input type="text" name="uno" id="uno"/>
+					</p>
+					<p>
+						<span>课程名：</span>
+						<input type="text" name="uname" id="uname"/>
+					</p>
+					<p>
+						<span>学分：</span>
+						<input type="text" name="ucredit" id="ucredit"/>
+					</p>
+					<p>
+						<span>授课老师：</span>
+						<select name="teacher.tid" id="uteacher"></select>
+					</p>
+					<p>
+						<span>上课时间：</span>
+						<input type="text" name="ustart" id="ustart">
+					</p>
+					<p>
+						<span>上课地点：</span>
+						<input type="text" name="uaddr" id="uaddr">
+					</p>
+					<p>
+						<span>课程类型：</span>
+						<input type="text" name="ukind" id="ukind"/>
+					</p>
+					<p>
+						<input type="submit" class="submit" value="修改"/>
+						<input type="button" class="cancel" value="取消"/>
+					</p>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="browse">
+			<div class="top">
+				<h5>请选择您要导入的文件</h5>
+				<i></i>
+			</div>
+			<div class="content">
+				<div class="files">
+					<form action="javascript:void(0)" method="post" enctype="multipart/form-data">
+						<input type="file" name="myfile" id="sfile" style="display: none;"
+							onchange="$('#path').val($(this).val());" />
+						<input type="text" name="path" id="path"/><button class="select" onclick="$('#sfile').click();return false;">浏览...</button>
+					</form>
+				</div>
+				<div class="buttons">
+					<button class="ok">确定</button>
+					<button class="cancel">取消</button>
+				</div>
+			</div>
+		</div>
+		<div class="hd">
+			<span>请输入关键字：</span>
+			<input type="text" name="keyword" class="keyword">
+			<button class="search">搜索一下</button>
+		</div>
+		<div class="bd">
+			<div class="toolbar">
+				<div class="opt">
+					 <span class="optarea">
+                        <a href="javascript:void(0);" class="add">
+                            <i class="icon"></i>
+                            <span class="text">添加</span>
+                        </a>
+                        <a href="javascript:void(0);" class="delete">
+                            <i class="icon"></i>
+                            <span class="text">删除</span>
+                        </a>                       
+                        <a href="javascript:void(0);" class="statistics">
+                            <i class="icon"></i>
+                            <span class="text">统计</span>
+                        </a>
+                    </span>
+                    <span class="inoutarea">
+                    	<a href="javascript:void(0);" class="export">
+                            <i class="icon"></i>
+                            <span class="text">导出</span>
+                        </a>
+                        <a href="javascript:void(0);" class="import">
+                            <i class="icon"></i>
+                            <span class="text">导入</span>
+                        </a>  
+                    </span>
+				</div>
+			</div>
+			<div class="table">
+				<table class="tablehd" cellpadding="0" cellspacing="0">
+					<tr id="first">
+						<td>
+							<input type="checkbox" name="all" id="all">
+						</td>
+					</tr>
+					<tr id="two">
+						<td>
+							<input type="checkbox" name="two" id="two">
+						</td>
+					</tr>
+				</table>
+				<table cellpadding="0" cellspacing="0" class="tablebd">
+					<thead>
+						<tr id="head">
+							<td id="id">
+								<span>ID</span>
+								<a href="javascript:void(0)" id="sort"></a>
+							</td>
+							<td id="num">
+								<span>课程号</span>
+								<a href="javascript:void(0)" id="sort"></a>
+							</td>
+							<td id="name">
+								<span>课程名</span>
+								<a href="javascript:void(0)" id="sort"></a>
+							</td>
+							<td id="credit">
+								<span>学分</span>
+							</td>
+							<td id="teacher">
+								<span>授课老师</span>
+							</td>
+							<td id="start">
+								<span>上课时间</span>
+							</td>
+							<td id="addr">
+								<span>上课地点</span>
+							</td>
+							<td id="kind">
+								<span>课程类型</span>
+							</td>
+							<td id="oper">
+								<span>操作</span>
+							</td>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div id="page" class="page_div"></div>
+	</div>
+<script type="text/javascript">
+	//上课时间日历控件
+	laydate({
+        elem: '#cstart'
+    });
+
+    laydate({
+        elem: '#ustart'
+    });
+
+
+    //预览图片
+    $("#timg").change(function(){
+    	var objUrl=$(this)[0].files[0];
+    	 //获得一个http格式的url路径:mozilla(firefox)||webkit or chrome  
+        var windowURL = window.URL || window.webkitURL;
+        //createObjectURL创建一个指向该参数对象(图片)的URL  
+        var dataURL = windowURL.createObjectURL(objUrl);
+        $(".preview").attr("src", dataURL);
+    });
+
+     //预览图片
+    $("#uimg").change(function(){
+    	var objUrl=$(this)[0].files[0];
+    	 //获得一个http格式的url路径:mozilla(firefox)||webkit or chrome  
+        var windowURL = window.URL || window.webkitURL;
+        //createObjectURL创建一个指向该参数对象(图片)的URL  
+        var dataURL = windowURL.createObjectURL(objUrl);
+        $(".preview").attr("src", dataURL);
+    });
+
+    //删除全选
+    $(".tablehd #all").click(function(){
+    	if($(".tablehd #all").is(":checked")){
+    		$(".tablehd input[type='checkbox'").not(".tablehd #all").prop({"checked":true});
+    	}else{
+    		$(".tablehd input[type='checkbox'").not(".tablehd #all").prop({"checked":false});
+    	}
+    })
+    
+</script>	
+</body>
+</html>

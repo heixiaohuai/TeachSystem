@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>login</title>
+	<link rel="stylesheet" type="text/css" href="css/login.css">
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+	<div class="main">
+		<div class="logo">
+			<img src="images/loginlogo.png">
+			<div class="title">
+				<span>教学管理系统</span>
+				<span>Educational Management System</span>
+				<p>轻松办公从现在开始</p>
+			</div>
+			<div class="login">
+				<form action="/TeachSystem/userLogin" method="post" class="loginForm" novalidate>
+					<p>
+						<span>账&nbsp;&nbsp;&nbsp;号</span>
+						<input type="text" name="uaccount" id="username">
+						<select class="cstyle">
+							<option value="default">默认风格</option>
+							<option value="red">红色风格</option>
+							<option value="green">绿色风格</option>
+						</select>
+					</p>
+					<p>
+						<span>密&nbsp;&nbsp;&nbsp;码</span>
+						<input type="password" name="upwd" id="password">
+					</p>
+					<p>
+						<span>验证码</span>
+						<input type="text" name="validate" id="validate">
+						<input type="submit" value="登陆">
+						<div class="code">
+
+						</div>
+					</p>
+				</form>
+			</div>
+			<div class="errmsg">
+
+			</div>
+		</div>
+
+	</div>
+<script type="text/javascript">
+	function getCode(){
+		var codes=[0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+		var mycode="";
+		for (var i = 0; i < 4; i++) {
+			var index=Math.floor(Math.random()*36);
+			var code=codes[index];
+			mycode+=code;
+		}
+		return mycode;
+	}
+	$(document).ready(function(){
+		$(".code").html(getCode());
+	});
+	$(".code").click(function(){
+		$(".code").html(getCode());
+	})
+
+	$(".cstyle").change(function(){
+		if($(".cstyle").val()=="red")
+			$("body").css({"background-color":"red"});
+		else if($(".cstyle").val()=="green")
+			$("body").css({"background-color":"green"});
+		else
+			$("body").css({"background-color":"#0170a4"});
+
+	});
+
+	$(".loginForm").submit(function(){
+		if($("#username").val()==""){
+			$(".errmsg").html("请输入用户名!");
+			return false;
+		}else if($("#password").val()==""){
+			$(".errmsg").html("请输入密码!");
+			return false;
+		}else if($("#validate").val()!=$(".code").html()){
+			$(".errmsg").html("请输入正确的验证码!");
+			return false;
+		}else{
+			return true;
+		}
+	});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Main</title>
+	<link rel="stylesheet" type="text/css" href="../css/student.css">
+	<link rel="stylesheet" type="text/css" href="../css/stu.css">
+	<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="../js/student.js"></script>
+	<script type="text/javascript" src="../js/stu.js"></script>
+</head>
+<body>
+	<div class="addstu" tabindex="1">
+		<div class="top">
+				<h4>公告信息</h4>
+				<i></i>
+		</div>
+		<div class="main">
+			<h5>
+				<span>查看公告</span>
+			</h5>
+			<div class="stuform">
+				
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="hd">
+			<img src="../images/loginlogo.png" class="logo">
+			<span class="name">教学管理系统</span>
+			<div class="userinfo">
+				<img src="../images/user.png">
+				<span id="username"></span>
+			</div>
+			<ul class="setting">
+				<li>桌面</li>
+				<li>设置</li>
+				<li>帮助</li>
+				<li class="quit"></li>
+			</ul>
+		</div>
+		<div class="exit">
+			<div class="top">
+				<h5>提示信息</h5>
+				<i></i>
+			</div>
+			<div class="content">
+				<div class="pic">
+					
+				</div>
+				<p>你确定要退出系统？</p>
+				<div class="buttons">
+					<button class="ok">确定</button>
+					<button class="cancel">取消</button>
+				</div>
+			</div>
+		</div>
+		<div class="bd">
+			<div class="toleft"></div>
+			<div class="nav">
+				<div class="desc">
+					<img src="../images/left_tree.png">
+					<span>教学管理系统</span>
+				</div>
+				<dl class="menus">
+					<dt>
+						<span class="menus-icon"></span>
+						<span class="menus-text">成绩查询</span>
+					</dt>
+					<dd>
+						<span class="submenu-icon"></span>
+						<span class="submenu-text"><a href="scoreman.html" onclick="return false;"
+						 data-id="1">个人成绩查询</a>
+						</span>
+					</dd>
+				</dl>
+				<dl class="menus">	
+					<dt>
+						<i class="menus-icon"></i>
+						<span class="menus-text">选课管理</span>
+					</dt>
+					<dd>
+						<span class="submenu-icon"></span>
+						<span class="submenu-text"><a href="courseman.html" onclick="return false;" 
+							data-id="2">选课管理</a></span>
+					</dd>
+				</dl>
+			</div>
+			<div class="main">
+				<div class="title">
+					<ul class="tab">
+						<li data-id="0">
+							<a href="javascript:void(0)" class="tabpage">
+								<span>首页</span>
+								<i style="display: inline-block;width: 8px;height: 8px;"></i>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="content">
+					<iframe data-id="0" width="100%" height="100%" frameborder="0" src="index.html"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+        var ws=new WebSocket("ws://localhost:8080/TeachSystem/msgServer");
+
+        ws.onopen=function(){
+
+        }
+
+        ws.onclose=function(){
+
+        }
+
+        ws.onmessage=function(message){
+            $(".addstu").css({"display":"block"});
+            $(".addstu .stuform").empty();
+            $(".addstu .stuform").append(message.data);
+        }
+
+	</script>
+</body>
+</html>
